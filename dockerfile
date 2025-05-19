@@ -33,7 +33,7 @@ ENV PATH="/app/.venv/bin:${PATH}"
 COPY pyproject.toml uv.lock ./
 
 # Copy constraints file
-COPY constraints.txt /app/constraints.txt
+COPY constraints.txt /constraints.txt
 
 # Force tenacity to the right version first
 RUN pip install --no-cache-dir --constraint /app/constraints.txt tenacity
@@ -42,7 +42,7 @@ RUN pip install --no-cache-dir --constraint /app/constraints.txt tenacity
 # This also creates the /app/.venv directory
 # Cache buster: 1 - verbose flag added
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
-    PIP_CONSTRAINT=/app/constraints.txt uv sync --verbose --locked --no-install-project
+    PIP_CONSTRAINT=/constraints.txt uv sync --verbose --locked --no-install-project
 
 # Copy the rest of the application code
 # Assuming start_server.py is at the root or handled by pyproject.toml structure.
@@ -51,7 +51,7 @@ COPY . .
 # Install the project itself into the venv in non-editable mode
 # Cache buster: 1 - verbose flag added
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
-    PIP_CONSTRAINT=/app/constraints.txt uv sync --verbose --locked --no-editable
+    PIP_CONSTRAINT=/constraints.txt uv sync --verbose --locked --no-editable
 
 # Install additional packages as requested
 # Cache buster: 1 - verbose flag added
