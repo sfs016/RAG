@@ -36,7 +36,7 @@ COPY pyproject.toml uv.lock ./
 COPY constraints.txt /constraints.txt
 
 # Force tenacity to the right version first
-RUN pip install --no-cache-dir --constraint /app/constraints.txt tenacity
+RUN pip install --no-cache-dir --constraint /constraints.txt tenacity
 
 # Create venv and install dependencies from lockfile (excluding the project itself initially for better caching)
 # This also creates the /app/.venv directory
