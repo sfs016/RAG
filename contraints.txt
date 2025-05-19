@@ -1,0 +1,2 @@
+# constraints.txt
+tenacity==9.2.2
